@@ -1,4 +1,4 @@
-skills = ["python", "sql", "html", "css", "java"]
+skills = ["python", "sql", "html", "css", "java","c++","dbms","oops","javascript"]
 
 def extract_skills(text):
     found = []

@@ -72,7 +72,7 @@ if uploaded_file:
 
             for q, correct_answer in questions[skill].items():
 
-                answer = st.text_input(q,key=f"{skills}_{q}")
+                answer = st.text_input(q,key=f"{skill}_{q}")
 
                 if answer:
 

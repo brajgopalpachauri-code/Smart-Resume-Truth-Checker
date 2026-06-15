@@ -60,6 +60,8 @@ if uploaded_file:
 
     score = 0
     total = 0
+    skill_scores={}
+    skill_totals={}
     progress=st.progress(0)
 
     for skill in skills:
@@ -67,6 +69,8 @@ if uploaded_file:
         progress.progress(progress_value/len(skills))
 
         if skill in questions:
+            skill_scores[skill]=0
+            skill_totals[skill]=0
 
             st.subheader(skill.upper())
 
@@ -77,9 +81,11 @@ if uploaded_file:
                 if answer:
 
                     total += 1
+                    skill_totals[skill]+=1
 
                     if correct_answer.lower() in answer.lower():
                         score += 1
+                        skill_scores[skill]+=1
     submit=st.button("Submit Answer")
 
     if submit and total > 0:
@@ -102,13 +108,48 @@ if uploaded_file:
           pdf_file,
           file_name="resume_report.pdf",
           mime="application/pdf"
-     )
+       )
+        skill_feedback = ""
         
-        if result>=80:
-            st.success("Resume is likely authentic.")
-        elif result>=50:
-            st.warning("Resume is partially authentic.")
+       
+        if result >= 80:
+                feedback = """
+                Excellent! Your resume skills appear genuine.
+                You have demonstrated strong knowledge in the selected skills.
+                """
+        elif result >= 50:
+                feedback = """
+                Your skills seem partially verified.
+                Some concepts need improvement before interviews.
+                """
         else:
-            st.error("Skills Need Verifcation.")
+                feedback = """
+                Many skills could not be verified.
+                More practice and revision is recommended.
+                """
+    skill_feedback = ""
 
-   
+               
+
+    for skill in skill_scores:
+        
+
+        if skill_totals[skill] > 0:
+
+            percentage = (skill_scores[skill] / skill_totals[skill]) * 100
+
+            if percentage >= 80:
+                skill_feedback += f"✅ {skill}: Excellent performance.\n\n"
+
+            elif percentage >= 50:
+                skill_feedback += f"⚠️ {skill}: Good but needs improvement.\n\n"
+
+            else:
+                skill_feedback += f"❌ {skill}: Needs more practice.\n\n"
+
+            st.subheader("Skill Wise Analysis")
+            st.info(skill_feedback)
+
+            st.subheader("AI Feedback")
+            st.info(feedback)
+    

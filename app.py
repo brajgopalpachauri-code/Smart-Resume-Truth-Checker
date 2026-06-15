@@ -149,6 +149,8 @@ if uploaded_file:
 
             st.subheader("Skill Wise Analysis")
             st.info(skill_feedback)
+            if'feedback'not in locals():
+               feedback="AI feedback not generated."
 
             st.subheader("AI Feedback")
             st.info(feedback)
